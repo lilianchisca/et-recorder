@@ -1,4 +1,4 @@
-export type RecordingState = "idle" | "countdown" | "recording" | "paused" | "recorded" | "playing";
+export type RecordingState = "idle" | "countdown" | "recording" | "paused" | "recorded" | "playing" | "trimming";
 
 export interface Recording {
   id: string;
@@ -17,6 +17,8 @@ export interface VideoRecorderHookReturn {
   isSupported: boolean;
   videoRef: React.RefObject<HTMLVideoElement | null>;
   stream: MediaStream | null;
+  trimStart: number;
+  trimEnd: number;
   startCountdown: () => Promise<void>;
   startRecording: () => Promise<void>;
   pauseRecording: () => void;
@@ -28,4 +30,10 @@ export interface VideoRecorderHookReturn {
   deleteRecording: (recordingId: string) => void;
   deleteAllRecordings: () => void;
   saveVideo: () => void;
+  startTrimming: () => void;
+  setTrimStart: (time: number) => void;
+  setTrimEnd: (time: number) => void;
+  resetTrim: () => void;
+  cancelTrimming: () => void;
+  applyTrim: () => Promise<void>;
 }

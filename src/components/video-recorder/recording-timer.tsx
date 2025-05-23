@@ -7,20 +7,24 @@ interface RecordingTimerProps {
   recordingState: RecordingState;
   maxDuration?: number; // in seconds
   onTimeLimit?: () => void;
+  onWarning?: (remainingTime: number) => void;
 }
 
 export function RecordingTimer({ 
   recordingState, 
   maxDuration = 120, // 2 minutes default
-  onTimeLimit 
+  onTimeLimit,
+  onWarning
 }: RecordingTimerProps) {
   const [elapsedTime, setElapsedTime] = useState(0);
+  const [warningsShown, setWarningsShown] = useState<Set<number>>(new Set());
   const isActive = recordingState === "recording" || recordingState === "paused";
 
   useEffect(() => {
     // Reset timer when not recording
     if (!isActive) {
       setElapsedTime(0);
+      setWarningsShown(new Set());
       return;
     }
 
@@ -32,6 +36,20 @@ export function RecordingTimer({
     const interval = setInterval(() => {
       setElapsedTime((prev) => {
         const newTime = prev + 1;
+        const remainingTime = maxDuration - newTime;
+        
+        // Trigger warnings at specific thresholds
+        if (onWarning) {
+          const warningThresholds = [60, 30, 10]; // 60s, 30s, 10s remaining
+          for (const threshold of warningThresholds) {
+            if (remainingTime === threshold && !warningsShown.has(threshold)) {
+              setWarningsShown(prev => new Set(prev).add(threshold));
+              onWarning(remainingTime);
+              break;
+            }
+          }
+        }
+        
         if (newTime >= maxDuration && onTimeLimit) {
           onTimeLimit();
         }
@@ -40,7 +58,7 @@ export function RecordingTimer({
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [recordingState, isActive, maxDuration, onTimeLimit]);
+  }, [recordingState, isActive, maxDuration, onTimeLimit, onWarning]);
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);

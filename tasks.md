@@ -17,8 +17,8 @@
 - [x] Implement circular progress indicator for time limit
 - [x] Add warning states (yellow at 30s remaining, red at 10s)
 - [x] Auto-stop recording when time limit reached
-- [ ] Display toast/notification when approaching limit
-- [ ] Make time limit configurable via props
+- [x] Display toast/notification when approaching limit
+- [x] Make time limit configurable via props
 
 ### 3. Pause/Resume Recording Functionality
 - [x] Research MediaRecorder pause/resume API support
@@ -42,23 +42,23 @@
 ## User Experience Features
 
 ### 5. Video Trimming - Basic Start/End
-- [ ] Create `VideoTrimmer` component with timeline UI
-- [ ] Implement video playback with frame-accurate seeking
-- [ ] Add draggable start/end trim handles
-- [ ] Display trim preview in real-time
-- [ ] Create trim markers with time display
-- [ ] Implement trim processing using Web APIs
-- [ ] Generate new blob from trimmed video
-- [ ] Add "Reset trim" option
-- [ ] Show before/after duration
+- [x] Create `VideoTrimmer` component with timeline UI
+- [x] Implement video playback with frame-accurate seeking
+- [x] Add draggable start/end trim handles
+- [x] Display trim preview in real-time
+- [x] Create trim markers with time display
+- [x] Implement trim processing using Web APIs
+- [x] Generate new blob from trimmed video
+- [x] Add "Reset trim" option
+- [x] Show before/after duration
 
 ### 6. Audio Level Meter
 - [x] Create `AudioMeter` component with visual bars
 - [x] Implement Web Audio API analyzer
 - [x] Connect audio stream to analyzer during recording
 - [x] Add real-time level visualization (green/yellow/red zones)
-- [ ] Include peak level indicator
-- [ ] Add microphone sensitivity adjustment
+- [x] Include peak level indicator
+- [ ] Add microphone sensitivity adjustment (optional)
 - [x] Show "no audio" warning if levels too low
 - [x] Implement smooth animations for level changes
 

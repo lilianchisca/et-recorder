@@ -9,3 +9,5 @@ export { RecordingTimer } from "./recording-timer";
 export { AudioMeter } from "./audio-meter";
 export { PauseResumeButton } from "./pause-resume-button";
 export { RecordingsList } from "./recordings-list";
+export { VideoTrimmer } from "./video-trimmer";
+export { Toast, ToastContainer } from "./toast-notification";

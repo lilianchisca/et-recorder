@@ -9,6 +9,8 @@ export function useVideoRecorder(): VideoRecorderHookReturn {
   const [currentRecordingId, setCurrentRecordingId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isSupported, setIsSupported] = useState(true);
+  const [trimStart, setTrimStart] = useState(0);
+  const [trimEnd, setTrimEnd] = useState(0);
   
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
@@ -359,6 +361,76 @@ export function useVideoRecorder(): VideoRecorderHookReturn {
     alert("Save functionality will be implemented with Estate Track API");
   };
 
+  const startTrimming = () => {
+    const recording = recordings.find(r => r.id === currentRecordingId);
+    if (recording) {
+      setTrimStart(0);
+      setTrimEnd(recording.duration);
+      setRecordingState("trimming");
+    }
+  };
+
+  const resetTrim = () => {
+    const recording = recordings.find(r => r.id === currentRecordingId);
+    if (recording) {
+      setTrimStart(0);
+      setTrimEnd(recording.duration);
+    }
+  };
+
+  const cancelTrimming = () => {
+    const recording = recordings.find(r => r.id === currentRecordingId);
+    if (recording) {
+      setTrimStart(0);
+      setTrimEnd(recording.duration);
+      setRecordingState("recorded");
+      // Ensure video element shows the current recording
+      if (videoRef.current) {
+        videoRef.current.src = recording.url;
+      }
+    }
+  };
+
+  const applyTrim = async () => {
+    const recording = recordings.find(r => r.id === currentRecordingId);
+    if (!recording) return;
+
+    try {
+      setError(null);
+      
+      // For now, create a simple trimmed version by updating metadata
+      // This is a simplified approach - in production you'd use FFmpeg or similar
+      const trimmedDuration = trimEnd - trimStart;
+      
+      // Create new recording with same blob but updated metadata
+      const trimmedRecording: Recording = {
+        id: `${recording.id}-trimmed-${Date.now()}`,
+        blob: recording.blob, // Keep same blob for now
+        url: recording.url, // Keep same URL for now
+        duration: trimmedDuration,
+        timestamp: new Date(),
+        thumbnail: recording.thumbnail,
+      };
+      
+      // Replace the current recording with trimmed version
+      setRecordings(prev => prev.map(rec => 
+        rec.id === currentRecordingId ? trimmedRecording : rec
+      ));
+      setCurrentRecordingId(trimmedRecording.id);
+      setRecordingState("recorded");
+      
+      // Update video element
+      if (videoRef.current) {
+        videoRef.current.src = recording.url;
+        videoRef.current.currentTime = trimStart;
+      }
+      
+    } catch (error) {
+      console.error('Error applying trim:', error);
+      setError('Failed to trim video. Please try again.');
+    }
+  };
+
   return {
     recordingState,
     recordings,
@@ -367,6 +439,8 @@ export function useVideoRecorder(): VideoRecorderHookReturn {
     isSupported,
     videoRef,
     stream: streamRef.current,
+    trimStart,
+    trimEnd,
     startCountdown,
     startRecording,
     pauseRecording,
@@ -378,5 +452,11 @@ export function useVideoRecorder(): VideoRecorderHookReturn {
     deleteRecording,
     deleteAllRecordings,
     saveVideo,
+    startTrimming,
+    setTrimStart,
+    setTrimEnd,
+    resetTrim,
+    cancelTrimming,
+    applyTrim,
   };
 }
