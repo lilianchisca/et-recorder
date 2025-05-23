@@ -6,7 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint:eslint": "next lint",
+    "lint:types": "tsc --pretty --noEmit",
+    "lint": "pnpm run \"/lint:/\""
   },
   "dependencies": {
     "react": "^19.0.0",

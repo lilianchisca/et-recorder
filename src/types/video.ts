@@ -15,7 +15,7 @@ export interface VideoRecorderHookReturn {
   currentRecordingId: string | null;
   error: string | null;
   isSupported: boolean;
-  videoRef: React.RefObject<HTMLVideoElement>;
+  videoRef: React.RefObject<HTMLVideoElement | null>;
   stream: MediaStream | null;
   startCountdown: () => Promise<void>;
   startRecording: () => Promise<void>;

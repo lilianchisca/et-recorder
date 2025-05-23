@@ -232,19 +232,43 @@ export function useVideoRecorder(): VideoRecorderHookReturn {
       });
       
       const canvas = document.createElement('canvas');
-      canvas.width = 120;
-      canvas.height = 120;
+      // Use higher resolution for better quality
+      const targetWidth = 360; // 3x the display size for retina displays
+      const targetHeight = 640; // Maintain 9:16 aspect ratio
+      
+      canvas.width = targetWidth;
+      canvas.height = targetHeight;
       const ctx = canvas.getContext('2d');
       
       if (ctx) {
-        // Calculate crop dimensions for square thumbnail
-        const size = Math.min(video.videoWidth, video.videoHeight);
-        const x = (video.videoWidth - size) / 2;
-        const y = (video.videoHeight - size) / 2;
+        // Calculate dimensions to maintain aspect ratio
+        const videoAspect = video.videoWidth / video.videoHeight;
+        const canvasAspect = targetWidth / targetHeight;
         
-        ctx.drawImage(video, x, y, size, size, 0, 0, 120, 120);
+        let drawWidth, drawHeight, offsetX, offsetY;
         
-        const thumbnailUrl = canvas.toDataURL('image/jpeg', 0.7);
+        if (videoAspect > canvasAspect) {
+          // Video is wider - fit height and crop width
+          drawHeight = targetHeight;
+          drawWidth = drawHeight * videoAspect;
+          offsetX = (targetWidth - drawWidth) / 2;
+          offsetY = 0;
+        } else {
+          // Video is taller - fit width and crop height
+          drawWidth = targetWidth;
+          drawHeight = drawWidth / videoAspect;
+          offsetX = 0;
+          offsetY = (targetHeight - drawHeight) / 2;
+        }
+        
+        // Enable image smoothing for better quality
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        
+        ctx.drawImage(video, offsetX, offsetY, drawWidth, drawHeight);
+        
+        // Use higher quality JPEG compression
+        const thumbnailUrl = canvas.toDataURL('image/jpeg', 0.9);
         
         setRecordings(prev => prev.map(rec => 
           rec.id === recordingId 

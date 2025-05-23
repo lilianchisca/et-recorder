@@ -61,7 +61,7 @@ export function RecordingTimer({
   if (!isActive) return null;
 
   return (
-    <div className="absolute top-4 right-4 bg-black/60 rounded-lg p-3 text-white">
+    <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-sm rounded-lg p-3 text-white">
       <div className="flex items-center gap-2 mb-2">
         <div className="text-sm font-medium">
           {formatTime(elapsedTime)} / {formatTime(maxDuration)}

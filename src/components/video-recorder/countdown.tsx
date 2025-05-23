@@ -24,13 +24,15 @@ export function Countdown({ onComplete, duration = 3 }: CountdownProps) {
   }, [count, onComplete]);
 
   return (
-    <div className="absolute inset-0 flex items-center justify-center bg-black/20 rounded-lg z-10 pointer-events-none">
-      <div className="text-white font-bold animate-countdown-pulse">
-        {count === 0 ? (
-          <div className="text-6xl">GO!</div>
-        ) : (
-          <div className="text-8xl">{count}</div>
-        )}
+    <div className="absolute inset-0 flex items-center justify-center bg-black/20 backdrop-blur-sm z-10 pointer-events-none">
+      <div className="bg-black/40 backdrop-blur-md rounded-full w-32 h-32 flex items-center justify-center animate-countdown-pulse">
+        <div className="text-white font-bold">
+          {count === 0 ? (
+            <div className="text-4xl">GO!</div>
+          ) : (
+            <div className="text-6xl">{count}</div>
+          )}
+        </div>
       </div>
     </div>
   );
