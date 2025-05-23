@@ -21,23 +21,23 @@
 - [ ] Make time limit configurable via props
 
 ### 3. Pause/Resume Recording Functionality
-- [ ] Research MediaRecorder pause/resume API support
-- [ ] Add `isPaused` state to recording states
-- [ ] Create pause/resume button component
-- [ ] Implement pause logic in the recorder hook
-- [ ] Handle browser compatibility (fallback for unsupported browsers)
-- [ ] Update UI to show paused state clearly
-- [ ] Maintain recording timer state during pause
+- [x] Research MediaRecorder pause/resume API support
+- [x] Add `isPaused` state to recording states
+- [x] Create pause/resume button component
+- [x] Implement pause logic in the recorder hook
+- [x] Handle browser compatibility (fallback for unsupported browsers)
+- [x] Update UI to show paused state clearly
+- [x] Maintain recording timer state during pause
 
 ### 4. Multiple Takes Feature
-- [ ] Extend data model to support array of recordings
-- [ ] Create `Recording` type with metadata (id, timestamp, duration, thumbnail)
-- [ ] Implement `RecordingsList` component to display all takes
-- [ ] Add thumbnail generation for each recording
-- [ ] Create take selection UI with preview
-- [ ] Add "Use this take" and "Delete take" actions
-- [ ] Implement storage management (memory cleanup)
-- [ ] Add take counter display (Take 1, Take 2, etc.)
+- [x] Extend data model to support array of recordings
+- [x] Create `Recording` type with metadata (id, timestamp, duration, thumbnail)
+- [x] Implement `RecordingsList` component to display all takes
+- [x] Add thumbnail generation for each recording
+- [x] Create take selection UI with preview
+- [x] Add "Use this take" and "Delete take" actions
+- [x] Implement storage management (memory cleanup)
+- [x] Add take counter display (Take 1, Take 2, etc.)
 
 ## User Experience Features
 

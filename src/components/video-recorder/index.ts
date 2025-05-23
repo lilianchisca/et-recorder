@@ -7,3 +7,5 @@ export { VideoRecorder } from "./video-recorder";
 export { Countdown } from "./countdown";
 export { RecordingTimer } from "./recording-timer";
 export { AudioMeter } from "./audio-meter";
+export { PauseResumeButton } from "./pause-resume-button";
+export { RecordingsList } from "./recordings-list";

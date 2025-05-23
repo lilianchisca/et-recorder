@@ -16,8 +16,8 @@ export const VideoPreview = forwardRef<HTMLVideoElement, VideoPreviewProps>(
           ref={ref}
           className="w-full h-full object-cover"
           playsInline
-          autoPlay={recordingState === "recording" || recordingState === "countdown"}
-          muted={recordingState === "recording" || recordingState === "countdown"}
+          autoPlay={recordingState === "recording" || recordingState === "countdown" || recordingState === "paused"}
+          muted={recordingState === "recording" || recordingState === "countdown" || recordingState === "paused"}
         />
         {recordingState === "idle" && !videoUrl && (
           <div className="absolute inset-0 flex items-center justify-center">
