@@ -7,6 +7,9 @@ import {
   ControlButtons,
   ErrorMessage,
   Instructions,
+  Countdown,
+  RecordingTimer,
+  AudioMeter,
 } from "@/components/video-recorder";
 
 export function VideoRecorder() {
@@ -16,8 +19,11 @@ export function VideoRecorder() {
     error,
     isSupported,
     videoRef,
+    stream,
+    startCountdown,
     startRecording,
     stopRecording,
+    handleTimeLimit,
     playVideo,
     saveVideo,
     deleteVideo,
@@ -38,18 +44,29 @@ export function VideoRecorder() {
     <>
       <ErrorMessage error={error} />
       
-      <div className="mb-6">
+      <div className="mb-6 relative">
         <VideoPreview
           ref={videoRef}
           recordingState={recordingState}
           videoUrl={videoUrl}
+        />
+        {recordingState === "countdown" && (
+          <Countdown onComplete={startRecording} />
+        )}
+        <RecordingTimer 
+          isRecording={recordingState === "recording"}
+          onTimeLimit={handleTimeLimit}
+        />
+        <AudioMeter 
+          stream={stream}
+          isActive={recordingState === "recording" || recordingState === "countdown"}
         />
       </div>
 
       <div className="space-y-3">
         <RecordButton
           recordingState={recordingState}
-          onStartRecording={startRecording}
+          onStartRecording={startCountdown}
           onStopRecording={stopRecording}
         />
         

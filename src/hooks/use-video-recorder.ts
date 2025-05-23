@@ -33,9 +33,10 @@ export function useVideoRecorder(): VideoRecorderHookReturn {
     }
   }, []);
 
-  const startRecording = async () => {
+  const startCountdown = async () => {
     setError(null);
     try {
+      // Get the stream early for audio meter
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {
           facingMode: "user",
@@ -44,12 +45,51 @@ export function useVideoRecorder(): VideoRecorderHookReturn {
         },
         audio: true
       });
-
+      
       streamRef.current = stream;
       
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
         videoRef.current.muted = true;
+      }
+      
+      setRecordingState("countdown");
+    } catch (err) {
+      console.error("Error accessing camera:", err);
+      const error = err as Error;
+      if (error.name === 'NotAllowedError') {
+        setError("Camera access denied. Please grant camera permissions and try again.");
+      } else if (error.name === 'NotFoundError') {
+        setError("No camera found. Please ensure your device has a camera.");
+      } else if (error.name === 'NotReadableError') {
+        setError("Camera is already in use by another application.");
+      } else {
+        setError("Unable to access camera. Please try again.");
+      }
+    }
+  };
+
+  const startRecording = async () => {
+    try {
+      // Use existing stream if available, otherwise get new one
+      let stream = streamRef.current;
+      
+      if (!stream) {
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            facingMode: "user",
+            width: { ideal: 720 },
+            height: { ideal: 1280 }
+          },
+          audio: true
+        });
+
+        streamRef.current = stream;
+        
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+          videoRef.current.muted = true;
+        }
       }
 
       const mimeType = MediaRecorder.isTypeSupported('video/webm;codecs=vp9') 
@@ -115,6 +155,11 @@ export function useVideoRecorder(): VideoRecorderHookReturn {
     }
   };
 
+  const handleTimeLimit = () => {
+    console.log("Recording time limit reached");
+    stopRecording();
+  };
+
   const playVideo = () => {
     if (videoRef.current && videoUrl) {
       videoRef.current.play();
@@ -156,8 +201,11 @@ export function useVideoRecorder(): VideoRecorderHookReturn {
     error,
     isSupported,
     videoRef,
+    stream: streamRef.current,
+    startCountdown,
     startRecording,
     stopRecording,
+    handleTimeLimit,
     playVideo,
     saveVideo,
     deleteVideo,

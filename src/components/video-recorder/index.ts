@@ -4,3 +4,6 @@ export { ControlButtons } from "./control-buttons";
 export { ErrorMessage } from "./error-message";
 export { Instructions } from "./instructions";
 export { VideoRecorder } from "./video-recorder";
+export { Countdown } from "./countdown";
+export { RecordingTimer } from "./recording-timer";
+export { AudioMeter } from "./audio-meter";

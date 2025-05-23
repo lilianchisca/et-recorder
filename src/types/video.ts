@@ -1,4 +1,4 @@
-export type RecordingState = "idle" | "recording" | "recorded" | "playing";
+export type RecordingState = "idle" | "countdown" | "recording" | "recorded" | "playing";
 
 export interface VideoRecorderHookReturn {
   recordingState: RecordingState;
@@ -7,8 +7,11 @@ export interface VideoRecorderHookReturn {
   error: string | null;
   isSupported: boolean;
   videoRef: React.RefObject<HTMLVideoElement>;
+  stream: MediaStream | null;
+  startCountdown: () => Promise<void>;
   startRecording: () => Promise<void>;
   stopRecording: () => void;
+  handleTimeLimit: () => void;
   playVideo: () => void;
   saveVideo: () => void;
   deleteVideo: () => void;

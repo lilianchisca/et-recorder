@@ -14,7 +14,7 @@ export function RecordButton({
   onStopRecording 
 }: RecordButtonProps) {
   const isRecording = recordingState === "recording";
-  const isDisabled = recordingState === "playing";
+  const isDisabled = recordingState === "playing" || recordingState === "countdown";
 
   return (
     <button
