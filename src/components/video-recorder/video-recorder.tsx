@@ -18,9 +18,10 @@ import {
 
 interface VideoRecorderProps {
   maxRecordingTime?: number; // in seconds, defaults to 120 (2 minutes)
+  enableCountdownSound?: boolean; // enable countdown sound effects
 }
 
-export function VideoRecorder({ maxRecordingTime = 120 }: VideoRecorderProps = {}) {
+export function VideoRecorder({ maxRecordingTime = 120, enableCountdownSound = true }: VideoRecorderProps = {}) {
   const {
     recordingState,
     recordings,
@@ -106,7 +107,10 @@ export function VideoRecorder({ maxRecordingTime = 120 }: VideoRecorderProps = {
               videoUrl={currentRecording?.url || null}
             />
             {recordingState === "countdown" && (
-              <Countdown onComplete={startRecording} />
+              <Countdown 
+                onComplete={startRecording} 
+                enableSound={enableCountdownSound}
+              />
             )}
             <RecordingTimer 
               recordingState={recordingState}

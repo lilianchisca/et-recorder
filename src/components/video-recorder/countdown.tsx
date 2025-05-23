@@ -1,17 +1,50 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 interface CountdownProps {
   onComplete: () => void;
   duration?: number;
+  enableSound?: boolean;
 }
 
-export function Countdown({ onComplete, duration = 3 }: CountdownProps) {
+export function Countdown({ onComplete, duration = 3, enableSound = true }: CountdownProps) {
   const [count, setCount] = useState(duration);
 
+  // Function to play countdown sound
+  const playCountdownSound = useCallback((isGo: boolean = false) => {
+    if (!enableSound) return;
+    
+    try {
+      const audioContext = new (window.AudioContext || (window as typeof window & { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      // Different frequencies for different sounds
+      oscillator.frequency.setValueAtTime(isGo ? 800 : 600, audioContext.currentTime);
+      oscillator.type = 'sine';
+      
+      // Sound envelope
+      gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+      gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.01);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + (isGo ? 0.5 : 0.2));
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + (isGo ? 0.5 : 0.2));
+    } catch (error) {
+      console.warn('Audio not supported:', error);
+    }
+  }, [enableSound]);
+
   useEffect(() => {
-    if (count === 0) {
+    // Play sound for current count
+    if (count > 0) {
+      playCountdownSound(false);
+    } else if (count === 0) {
+      playCountdownSound(true); // Special "GO!" sound
       onComplete();
       return;
     }
@@ -21,7 +54,7 @@ export function Countdown({ onComplete, duration = 3 }: CountdownProps) {
     }, 1000);
 
     return () => clearTimeout(timer);
-  }, [count, onComplete]);
+  }, [count, onComplete, playCountdownSound]);
 
   return (
     <div className="absolute inset-0 flex items-center justify-center bg-black/20 backdrop-blur-sm z-10 pointer-events-none">
