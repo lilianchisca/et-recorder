@@ -5,7 +5,8 @@
       "Bash(mkdir:*)",
       "Bash(pnpm lint:*)",
       "Bash(find:*)",
-      "Bash(mv:*)"
+      "Bash(mv:*)",
+      "mcp__puppeteer__puppeteer_screenshot"
     ],
     "deny": []
   }

@@ -11,7 +11,7 @@ export function AudioMeter({ stream, isActive }: AudioMeterProps) {
   const [audioLevel, setAudioLevel] = useState(0);
   const audioContextRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (!stream || !isActive) {
@@ -23,7 +23,7 @@ export function AudioMeter({ stream, isActive }: AudioMeterProps) {
     }
 
     try {
-      const AudioContextClass = window.AudioContext || (window as unknown as {webkitAudioContext: typeof AudioContext}).webkitAudioContext;
+      const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
       audioContextRef.current = new AudioContextClass();
       analyserRef.current = audioContextRef.current.createAnalyser();
       analyserRef.current.fftSize = 512;
@@ -38,12 +38,12 @@ export function AudioMeter({ stream, isActive }: AudioMeterProps) {
         if (!analyserRef.current) return;
 
         analyserRef.current.getByteFrequencyData(dataArray);
-        
+
         // Calculate average level
         const sum = dataArray.reduce((acc, val) => acc + val, 0);
         const average = sum / dataArray.length;
         const normalizedLevel = Math.min(100, (average / 255) * 100 * 2); // Amplify for better visibility
-        
+
         setAudioLevel(normalizedLevel);
         animationRef.current = requestAnimationFrame(updateLevel);
       };
