@@ -64,7 +64,7 @@ export function RecordingsList({
             >
               <div className="flex items-center gap-3">
                 {/* Thumbnail */}
-                <div className="w-12 h-12 rounded bg-gray-900 overflow-hidden flex-shrink-0">
+                <div className="w-12 h-12 rounded-sm bg-gray-900 overflow-hidden shrink-0">
                   {recording.thumbnail ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
@@ -97,13 +97,13 @@ export function RecordingsList({
                 </div>
 
                 {/* Actions */}
-                <div className="flex items-center gap-1 flex-shrink-0">
+                <div className="flex items-center gap-1 shrink-0">
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       onPlay(recording.id);
                     }}
-                    className="p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors"
+                    className="p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer disabled:cursor-not-allowed"
                     aria-label="Play recording"
                     disabled={recordingState === "recording" || recordingState === "countdown"}
                   >
@@ -118,7 +118,7 @@ export function RecordingsList({
                         onDelete(recording.id);
                       }
                     }}
-                    className="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                    className="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer disabled:cursor-not-allowed"
                     aria-label="Delete recording"
                     disabled={recordingState === "recording" || recordingState === "countdown"}
                   >

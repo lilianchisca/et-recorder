@@ -22,7 +22,7 @@ export function PauseResumeButton({
   return (
     <button
       onClick={isPaused ? onResume : onPause}
-      className="flex-1 bg-gray-600 hover:bg-gray-700 active:bg-gray-800 text-white font-medium py-4 px-4 rounded-xl transition-colors shadow-lg flex items-center justify-center gap-2"
+      className="flex-1 bg-gray-600 hover:bg-gray-700 active:bg-gray-800 text-white font-medium py-4 px-4 rounded-xl transition-colors shadow-lg flex items-center justify-center gap-2 cursor-pointer"
       aria-label={isPaused ? "Resume recording" : "Pause recording"}
     >
       {isPaused ? (

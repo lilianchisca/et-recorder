@@ -37,6 +37,17 @@ export function useVideoRecorder(): VideoRecorderHookReturn {
     }
   }, []);
 
+  // Sync video element with current recording when currentRecordingId changes
+  useEffect(() => {
+    if (currentRecordingId && videoRef.current && recordingState === "recorded") {
+      const recording = recordings.find(r => r.id === currentRecordingId);
+      if (recording && videoRef.current.src !== recording.url) {
+        videoRef.current.src = recording.url;
+        videoRef.current.currentTime = 0;
+      }
+    }
+  }, [currentRecordingId, recordings, recordingState]);
+
   const startCountdown = async () => {
     setError(null);
     try {
@@ -387,6 +398,7 @@ export function useVideoRecorder(): VideoRecorderHookReturn {
       // Ensure video element shows the current recording
       if (videoRef.current) {
         videoRef.current.src = recording.url;
+        videoRef.current.currentTime = 0;
       }
     }
   };
@@ -419,9 +431,9 @@ export function useVideoRecorder(): VideoRecorderHookReturn {
       setCurrentRecordingId(trimmedRecording.id);
       setRecordingState("recorded");
       
-      // Update video element
+      // Update video element to show the trimmed recording
       if (videoRef.current) {
-        videoRef.current.src = recording.url;
+        videoRef.current.src = trimmedRecording.url;
         videoRef.current.currentTime = trimStart;
       }
       

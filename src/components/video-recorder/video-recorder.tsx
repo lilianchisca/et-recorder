@@ -123,7 +123,7 @@ export function VideoRecorder({ maxRecordingTime = 120, enableCountdownSound = t
               isActive={recordingState === "recording" || recordingState === "countdown" || recordingState === "paused"}
             />
             {(recordingState === "recording" || recordingState === "paused") && (
-              <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-sm rounded-lg px-3 py-2 text-white text-sm font-medium flex items-center gap-2">
+              <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-xs rounded-lg px-3 py-2 text-white text-sm font-medium flex items-center gap-2">
                 <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
                 Take {recordings.length + 1}
               </div>
@@ -152,7 +152,7 @@ export function VideoRecorder({ maxRecordingTime = 120, enableCountdownSound = t
               />
               <button
                 onClick={stopRecording}
-                className="flex-1 bg-red-600 hover:bg-red-700 active:bg-red-800 text-white font-medium py-4 px-6 rounded-xl transition-colors shadow-lg"
+                className="flex-1 bg-red-600 hover:bg-red-700 active:bg-red-800 text-white font-medium py-4 px-6 rounded-xl transition-colors shadow-lg cursor-pointer"
               >
                 Stop Recording
               </button>
@@ -165,7 +165,7 @@ export function VideoRecorder({ maxRecordingTime = 120, enableCountdownSound = t
               <button
                 onClick={() => playVideo()}
                 disabled={recordingState === "playing"}
-                className="bg-gray-100 hover:bg-gray-200 active:bg-gray-300 text-gray-700 font-medium py-4 px-4 rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex flex-col items-center gap-1"
+                className="bg-gray-100 hover:bg-gray-200 active:bg-gray-300 text-gray-700 font-medium py-4 px-4 rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer flex flex-col items-center gap-1"
               >
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
@@ -174,7 +174,7 @@ export function VideoRecorder({ maxRecordingTime = 120, enableCountdownSound = t
               </button>
               <button
                 onClick={startTrimming}
-                className="bg-blue-100 hover:bg-blue-200 active:bg-blue-300 text-blue-700 font-medium py-4 px-4 rounded-xl transition-colors flex flex-col items-center gap-1"
+                className="bg-blue-100 hover:bg-blue-200 active:bg-blue-300 text-blue-700 font-medium py-4 px-4 rounded-xl transition-colors cursor-pointer flex flex-col items-center gap-1"
               >
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
@@ -183,7 +183,7 @@ export function VideoRecorder({ maxRecordingTime = 120, enableCountdownSound = t
               </button>
               <button
                 onClick={saveVideo}
-                className="bg-green-100 hover:bg-green-200 active:bg-green-300 text-green-700 font-medium py-4 px-4 rounded-xl transition-colors flex flex-col items-center gap-1"
+                className="bg-green-100 hover:bg-green-200 active:bg-green-300 text-green-700 font-medium py-4 px-4 rounded-xl transition-colors cursor-pointer flex flex-col items-center gap-1"
               >
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
@@ -192,7 +192,7 @@ export function VideoRecorder({ maxRecordingTime = 120, enableCountdownSound = t
               </button>
               <button
                 onClick={() => currentRecordingId && deleteRecording(currentRecordingId)}
-                className="bg-red-100 hover:bg-red-200 active:bg-red-300 text-red-700 font-medium py-4 px-4 rounded-xl transition-colors flex flex-col items-center gap-1"
+                className="bg-red-100 hover:bg-red-200 active:bg-red-300 text-red-700 font-medium py-4 px-4 rounded-xl transition-colors cursor-pointer flex flex-col items-center gap-1"
               >
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />

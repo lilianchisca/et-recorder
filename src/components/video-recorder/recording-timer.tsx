@@ -79,13 +79,13 @@ export function RecordingTimer({
   if (!isActive) return null;
 
   return (
-    <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-sm rounded-lg p-3 text-white">
+    <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-xs rounded-lg p-3 text-white">
       <div className="flex items-center gap-2 mb-2">
         <div className="text-sm font-medium">
           {formatTime(elapsedTime)} / {formatTime(maxDuration)}
         </div>
         {recordingState === "paused" && (
-          <span className="text-xs bg-yellow-500 text-black px-2 py-0.5 rounded font-medium animate-pulse">
+          <span className="text-xs bg-yellow-500 text-black px-2 py-0.5 rounded-sm font-medium animate-pulse">
             PAUSED
           </span>
         )}

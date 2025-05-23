@@ -167,7 +167,7 @@ export function VideoTrimmer({
   return (
     <div>
       {/* Preview Video */}
-      <div className="relative aspect-[9/16] bg-black w-full h-[60vh] max-h-[500px]">
+      <div className="relative aspect-9/16 bg-black w-full h-[60vh] max-h-[500px]">
         <video
           ref={videoRef}
           className="w-full h-full object-cover"
@@ -180,7 +180,7 @@ export function VideoTrimmer({
           <button
             onClick={handlePlayPause}
             disabled={isProcessing}
-            className="bg-black/50 hover:bg-black/70 text-white p-4 rounded-full transition-all duration-200 backdrop-blur-sm disabled:opacity-50"
+            className="bg-black/50 hover:bg-black/70 text-white p-4 rounded-full transition-all duration-200 backdrop-blur-xs disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
           >
             {isPlaying ? (
               <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
@@ -232,7 +232,7 @@ export function VideoTrimmer({
             style={{ left: `${startPercentage}%` }}
             onMouseDown={handleStartDrag}
           >
-            <div className="w-1 h-6 bg-white rounded" />
+            <div className="w-1 h-6 bg-white rounded-sm" />
           </div>
           
           {/* End handle */}
@@ -241,7 +241,7 @@ export function VideoTrimmer({
             style={{ left: `${endPercentage}%`, transform: 'translateX(-100%)' }}
             onMouseDown={handleEndDrag}
           >
-            <div className="w-1 h-6 bg-white rounded" />
+            <div className="w-1 h-6 bg-white rounded-sm" />
           </div>
         </div>
         
@@ -268,7 +268,7 @@ export function VideoTrimmer({
         <button
           onClick={onReset}
           disabled={isProcessing}
-          className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 active:bg-gray-300 text-gray-700 rounded-lg transition-colors disabled:opacity-50"
+          className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 active:bg-gray-300 text-gray-700 rounded-lg transition-colors disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -279,7 +279,7 @@ export function VideoTrimmer({
         <button
           onClick={onCancel}
           disabled={isProcessing}
-          className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 active:bg-gray-300 text-gray-700 rounded-lg transition-colors disabled:opacity-50"
+          className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 active:bg-gray-300 text-gray-700 rounded-lg transition-colors disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -290,7 +290,7 @@ export function VideoTrimmer({
         <button
           onClick={onApply}
           disabled={isProcessing || trimDuration <= 0}
-          className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-blue-100 hover:bg-blue-200 active:bg-blue-300 text-blue-700 rounded-lg transition-colors disabled:opacity-50 whitespace-nowrap"
+          className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-blue-100 hover:bg-blue-200 active:bg-blue-300 text-blue-700 rounded-lg transition-colors disabled:opacity-50 whitespace-nowrap cursor-pointer disabled:cursor-not-allowed"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />

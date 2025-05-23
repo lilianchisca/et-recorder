@@ -57,7 +57,7 @@ export function Countdown({ onComplete, duration = 3, enableSound = true }: Coun
   }, [count, onComplete, playCountdownSound]);
 
   return (
-    <div className="absolute inset-0 flex items-center justify-center bg-black/20 backdrop-blur-sm z-10 pointer-events-none">
+    <div className="absolute inset-0 flex items-center justify-center bg-black/20 backdrop-blur-xs z-10 pointer-events-none">
       <div className="bg-black/40 backdrop-blur-md rounded-full w-32 h-32 flex items-center justify-center animate-countdown-pulse">
         <div className="text-white font-bold">
           {count === 0 ? (
