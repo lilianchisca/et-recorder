@@ -6,7 +6,12 @@
       "Bash(pnpm lint:*)",
       "Bash(find:*)",
       "Bash(mv:*)",
-      "mcp__puppeteer__puppeteer_screenshot"
+      "mcp__puppeteer__puppeteer_screenshot",
+      "WebFetch(domain:tailwindcss.com)",
+      "Bash(npx:*)",
+      "Bash(git init:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ],
     "deny": []
   }
