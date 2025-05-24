@@ -49,6 +49,11 @@ video {
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
+  /* Fix for iOS video orientation */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 @keyframes countdown-pulse {

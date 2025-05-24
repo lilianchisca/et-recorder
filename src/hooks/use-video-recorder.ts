@@ -56,7 +56,8 @@ export function useVideoRecorder(): VideoRecorderHookReturn {
         video: {
           facingMode: "user",
           width: { ideal: 720 },
-          height: { ideal: 1280 }
+          height: { ideal: 1280 },
+          aspectRatio: { ideal: 9/16 }
         },
         audio: true
       });
@@ -94,7 +95,8 @@ export function useVideoRecorder(): VideoRecorderHookReturn {
           video: {
             facingMode: "user",
             width: { ideal: 720 },
-            height: { ideal: 1280 }
+            height: { ideal: 1280 },
+            aspectRatio: { ideal: 9/16 }
           },
           audio: true
         });
@@ -107,13 +109,18 @@ export function useVideoRecorder(): VideoRecorderHookReturn {
         }
       }
 
-      const mimeType = MediaRecorder.isTypeSupported('video/webm;codecs=vp9')
-        ? 'video/webm;codecs=vp9'
+      const mimeType = MediaRecorder.isTypeSupported('video/webm;codecs=vp9,opus')
+        ? 'video/webm;codecs=vp9,opus'
+        : MediaRecorder.isTypeSupported('video/webm;codecs=vp8,opus')
+        ? 'video/webm;codecs=vp8,opus'
         : MediaRecorder.isTypeSupported('video/webm')
         ? 'video/webm'
         : 'video/mp4';
 
-      const mediaRecorder = new MediaRecorder(stream, { mimeType });
+      const mediaRecorder = new MediaRecorder(stream, { 
+        mimeType,
+        videoBitsPerSecond: 2500000 // 2.5 Mbps for better quality
+      });
       mediaRecorderRef.current = mediaRecorder;
       chunksRef.current = [];
 

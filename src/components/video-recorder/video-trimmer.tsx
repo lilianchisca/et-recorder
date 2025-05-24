@@ -183,7 +183,12 @@ export function VideoTrimmer({
         <video
           ref={videoRef}
           className="w-full h-full object-cover"
+          style={{
+            transform: 'rotateY(0deg)',
+            WebkitTransform: 'rotateY(0deg)'
+          }}
           playsInline
+          webkit-playsinline="true"
           muted={false}
         />
         
@@ -240,12 +245,13 @@ export function VideoTrimmer({
           
           {/* Start handle */}
           <div
-            className="absolute top-0 bottom-0 w-3 md:w-3 bg-blue-600 cursor-ew-resize z-10 hover:bg-blue-700 flex items-center justify-center touch-none"
+            className="absolute top-0 bottom-0 w-4 md:w-3 bg-blue-600 cursor-ew-resize z-10 hover:bg-blue-700 flex items-center justify-center touch-none"
             style={{ 
-              left: `${startPercentage}%`,
-              paddingLeft: '8px',
-              paddingRight: '8px',
-              marginLeft: '-8px'
+              left: `max(0px, ${startPercentage}%)`,
+              paddingLeft: '10px',
+              paddingRight: '10px',
+              marginLeft: '-10px',
+              minWidth: '20px'
             }}
             onMouseDown={handleStartDrag}
             onTouchStart={handleStartDrag}
@@ -255,13 +261,14 @@ export function VideoTrimmer({
           
           {/* End handle */}
           <div
-            className="absolute top-0 bottom-0 w-3 md:w-3 bg-blue-600 cursor-ew-resize z-10 hover:bg-blue-700 flex items-center justify-center touch-none"
+            className="absolute top-0 bottom-0 w-4 md:w-3 bg-blue-600 cursor-ew-resize z-10 hover:bg-blue-700 flex items-center justify-center touch-none"
             style={{ 
-              left: `${endPercentage}%`, 
+              left: `min(calc(100% - 20px), ${endPercentage}%)`, 
               transform: 'translateX(-100%)',
-              paddingLeft: '8px',
-              paddingRight: '8px',
-              marginRight: '-8px'
+              paddingLeft: '10px',
+              paddingRight: '10px',
+              marginRight: '-10px',
+              minWidth: '20px'
             }}
             onMouseDown={handleEndDrag}
             onTouchStart={handleEndDrag}

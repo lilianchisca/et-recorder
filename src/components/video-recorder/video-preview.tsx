@@ -15,7 +15,12 @@ export const VideoPreview = forwardRef<HTMLVideoElement, VideoPreviewProps>(
         <video
           ref={ref}
           className="w-full h-full object-cover"
+          style={{
+            transform: 'rotateY(0deg)',
+            WebkitTransform: 'rotateY(0deg)'
+          }}
           playsInline
+          webkit-playsinline="true"
           autoPlay={recordingState === "recording" || recordingState === "countdown" || recordingState === "paused"}
           muted={recordingState === "recording" || recordingState === "countdown" || recordingState === "paused"}
         />
