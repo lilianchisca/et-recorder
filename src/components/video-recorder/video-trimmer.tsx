@@ -61,12 +61,24 @@ export function VideoTrimmer({
       video.currentTime = trimStart;
     };
 
+    const handlePlay = () => {
+      setIsPlaying(true);
+    };
+
+    const handlePause = () => {
+      setIsPlaying(false);
+    };
+
     video.addEventListener('timeupdate', handleTimeUpdate);
     video.addEventListener('loadedmetadata', handleLoadedMetadata);
+    video.addEventListener('play', handlePlay);
+    video.addEventListener('pause', handlePause);
 
     return () => {
       video.removeEventListener('timeupdate', handleTimeUpdate);
       video.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      video.removeEventListener('play', handlePlay);
+      video.removeEventListener('pause', handlePause);
     };
   }, [videoUrl, trimStart, trimEnd]);
 
@@ -220,11 +232,12 @@ export function VideoTrimmer({
           Timeline
         </div>
         
-        <div
-          ref={timelineRef}
-          className="relative h-12 bg-gray-200 rounded-lg cursor-pointer overflow-hidden"
-          onClick={handleTimelineClick}
-        >
+        <div className="px-2">
+          <div
+            ref={timelineRef}
+            className="relative h-12 bg-gray-200 rounded-lg cursor-pointer"
+            onClick={handleTimelineClick}
+          >
           {/* Background timeline */}
           <div className="absolute inset-0 bg-gray-300" />
           
@@ -245,13 +258,10 @@ export function VideoTrimmer({
           
           {/* Start handle */}
           <div
-            className="absolute top-0 bottom-0 w-4 md:w-3 bg-blue-600 cursor-ew-resize z-10 hover:bg-blue-700 flex items-center justify-center touch-none"
+            className="absolute top-0 bottom-0 w-4 bg-blue-600 rounded-full cursor-ew-resize z-10 hover:bg-blue-700 flex items-center justify-center touch-none"
             style={{ 
-              left: `max(0px, ${startPercentage}%)`,
-              paddingLeft: '10px',
-              paddingRight: '10px',
-              marginLeft: '-10px',
-              minWidth: '20px'
+              left: `${startPercentage}%`,
+              marginLeft: '-8px'
             }}
             onMouseDown={handleStartDrag}
             onTouchStart={handleStartDrag}
@@ -261,19 +271,16 @@ export function VideoTrimmer({
           
           {/* End handle */}
           <div
-            className="absolute top-0 bottom-0 w-4 md:w-3 bg-blue-600 cursor-ew-resize z-10 hover:bg-blue-700 flex items-center justify-center touch-none"
+            className="absolute top-0 bottom-0 w-4 bg-blue-600 rounded-full cursor-ew-resize z-10 hover:bg-blue-700 flex items-center justify-center touch-none"
             style={{ 
-              left: `min(calc(100% - 20px), ${endPercentage}%)`, 
-              transform: 'translateX(-100%)',
-              paddingLeft: '10px',
-              paddingRight: '10px',
-              marginRight: '-10px',
-              minWidth: '20px'
+              left: `${endPercentage}%`,
+              marginLeft: '-8px'
             }}
             onMouseDown={handleEndDrag}
             onTouchStart={handleEndDrag}
           >
             <div className="w-1 h-6 bg-white rounded-sm pointer-events-none" />
+          </div>
           </div>
         </div>
         
