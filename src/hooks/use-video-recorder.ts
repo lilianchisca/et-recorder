@@ -11,7 +11,7 @@ export function useVideoRecorder(): VideoRecorderHookReturn {
   const [isSupported, setIsSupported] = useState(true);
   const [trimStart, setTrimStart] = useState(0);
   const [trimEnd, setTrimEnd] = useState(0);
-  
+
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -60,14 +60,14 @@ export function useVideoRecorder(): VideoRecorderHookReturn {
         },
         audio: true
       });
-      
+
       streamRef.current = stream;
-      
+
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
         videoRef.current.muted = true;
       }
-      
+
       setRecordingState("countdown");
     } catch (err) {
       console.error("Error accessing camera:", err);
@@ -88,7 +88,7 @@ export function useVideoRecorder(): VideoRecorderHookReturn {
     try {
       // Use existing stream if available, otherwise get new one
       let stream = streamRef.current;
-      
+
       if (!stream) {
         stream = await navigator.mediaDevices.getUserMedia({
           video: {
@@ -100,16 +100,16 @@ export function useVideoRecorder(): VideoRecorderHookReturn {
         });
 
         streamRef.current = stream;
-        
+
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
           videoRef.current.muted = true;
         }
       }
 
-      const mimeType = MediaRecorder.isTypeSupported('video/webm;codecs=vp9') 
-        ? 'video/webm;codecs=vp9' 
-        : MediaRecorder.isTypeSupported('video/webm') 
+      const mimeType = MediaRecorder.isTypeSupported('video/webm;codecs=vp9')
+        ? 'video/webm;codecs=vp9'
+        : MediaRecorder.isTypeSupported('video/webm')
         ? 'video/webm'
         : 'video/mp4';
 
@@ -127,10 +127,10 @@ export function useVideoRecorder(): VideoRecorderHookReturn {
         const blob = new Blob(chunksRef.current, { type: mimeType });
         const url = URL.createObjectURL(blob);
         const duration = recordingDurationRef.current;
-        
+
         // Generate unique ID for this recording
         const recordingId = `recording-${Date.now()}`;
-        
+
         // Create new recording object
         const newRecording: Recording = {
           id: recordingId,
@@ -140,22 +140,22 @@ export function useVideoRecorder(): VideoRecorderHookReturn {
           timestamp: new Date(),
           thumbnail: undefined, // Will be generated later
         };
-        
+
         // Add to recordings array
         setRecordings(prev => [newRecording, ...prev]);
         setCurrentRecordingId(recordingId);
         setRecordingState("recorded");
-        
+
         if (streamRef.current) {
           streamRef.current.getTracks().forEach(track => track.stop());
         }
-        
+
         if (videoRef.current) {
           videoRef.current.srcObject = null;
           videoRef.current.src = url;
           videoRef.current.muted = false;
         }
-        
+
         // Generate thumbnail
         generateThumbnail(url, recordingId);
       };
@@ -232,34 +232,34 @@ export function useVideoRecorder(): VideoRecorderHookReturn {
       const video = document.createElement('video');
       video.src = videoUrl;
       video.crossOrigin = 'anonymous';
-      
+
       await new Promise((resolve, reject) => {
         video.onloadeddata = resolve;
         video.onerror = reject;
       });
-      
+
       video.currentTime = 0.1; // Capture frame at 0.1 seconds
-      
+
       await new Promise((resolve) => {
         video.onseeked = resolve;
       });
-      
+
       const canvas = document.createElement('canvas');
       // Use higher resolution for better quality
       const targetWidth = 360; // 3x the display size for retina displays
       const targetHeight = 640; // Maintain 9:16 aspect ratio
-      
+
       canvas.width = targetWidth;
       canvas.height = targetHeight;
       const ctx = canvas.getContext('2d');
-      
+
       if (ctx) {
         // Calculate dimensions to maintain aspect ratio
         const videoAspect = video.videoWidth / video.videoHeight;
         const canvasAspect = targetWidth / targetHeight;
-        
+
         let drawWidth, drawHeight, offsetX, offsetY;
-        
+
         if (videoAspect > canvasAspect) {
           // Video is wider - fit height and crop width
           drawHeight = targetHeight;
@@ -273,18 +273,18 @@ export function useVideoRecorder(): VideoRecorderHookReturn {
           offsetX = 0;
           offsetY = (targetHeight - drawHeight) / 2;
         }
-        
+
         // Enable image smoothing for better quality
         ctx.imageSmoothingEnabled = true;
         ctx.imageSmoothingQuality = 'high';
-        
+
         ctx.drawImage(video, offsetX, offsetY, drawWidth, drawHeight);
-        
+
         // Use higher quality JPEG compression
         const thumbnailUrl = canvas.toDataURL('image/jpeg', 0.9);
-        
-        setRecordings(prev => prev.map(rec => 
-          rec.id === recordingId 
+
+        setRecordings(prev => prev.map(rec =>
+          rec.id === recordingId
             ? { ...rec, thumbnail: thumbnailUrl }
             : rec
         ));
@@ -297,12 +297,12 @@ export function useVideoRecorder(): VideoRecorderHookReturn {
   const playVideo = (recordingId?: string) => {
     const targetId = recordingId || currentRecordingId;
     const recording = recordings.find(r => r.id === targetId);
-    
+
     if (videoRef.current && recording) {
       videoRef.current.src = recording.url;
       videoRef.current.play();
       setRecordingState("playing");
-      
+
       videoRef.current.onended = () => {
         setRecordingState("recorded");
       };
@@ -326,9 +326,9 @@ export function useVideoRecorder(): VideoRecorderHookReturn {
         URL.revokeObjectURL(recording.thumbnail);
       }
     }
-    
+
     setRecordings(prev => prev.filter(r => r.id !== recordingId));
-    
+
     // If deleting current recording, select the next one or reset
     if (recordingId === currentRecordingId) {
       const remainingRecordings = recordings.filter(r => r.id !== recordingId);
@@ -351,11 +351,11 @@ export function useVideoRecorder(): VideoRecorderHookReturn {
         URL.revokeObjectURL(recording.thumbnail);
       }
     });
-    
+
     setRecordings([]);
     setCurrentRecordingId(null);
     setRecordingState("idle");
-    
+
     if (videoRef.current) {
       videoRef.current.src = "";
     }
@@ -364,10 +364,10 @@ export function useVideoRecorder(): VideoRecorderHookReturn {
   const saveVideo = () => {
     const recording = recordings.find(r => r.id === currentRecordingId);
     if (!recording) return;
-    
+
     const formData = new FormData();
     formData.append("video", recording.blob, "welcome-video.webm");
-    
+
     console.log("Video ready to upload to Estate Track");
     alert("Save functionality will be implemented with Estate Track API");
   };
@@ -409,11 +409,11 @@ export function useVideoRecorder(): VideoRecorderHookReturn {
 
     try {
       setError(null);
-      
+
       // For now, create a simple trimmed version by updating metadata
       // This is a simplified approach - in production you'd use FFmpeg or similar
       const trimmedDuration = trimEnd - trimStart;
-      
+
       // Create new recording with same blob but updated metadata
       const trimmedRecording: Recording = {
         id: `${recording.id}-trimmed-${Date.now()}`,
@@ -423,20 +423,20 @@ export function useVideoRecorder(): VideoRecorderHookReturn {
         timestamp: new Date(),
         thumbnail: recording.thumbnail,
       };
-      
+
       // Replace the current recording with trimmed version
-      setRecordings(prev => prev.map(rec => 
+      setRecordings(prev => prev.map(rec =>
         rec.id === currentRecordingId ? trimmedRecording : rec
       ));
       setCurrentRecordingId(trimmedRecording.id);
       setRecordingState("recorded");
-      
+
       // Update video element to show the trimmed recording
       if (videoRef.current) {
         videoRef.current.src = trimmedRecording.url;
         videoRef.current.currentTime = trimStart;
       }
-      
+
     } catch (error) {
       console.error('Error applying trim:', error);
       setError('Failed to trim video. Please try again.');

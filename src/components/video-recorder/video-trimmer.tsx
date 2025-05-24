@@ -111,22 +111,30 @@ export function VideoTrimmer({
     }
   };
 
-  const handleStartDrag = (e: React.MouseEvent) => {
+  const handleStartDrag = (e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
     setIsDraggingStart(true);
   };
 
-  const handleEndDrag = (e: React.MouseEvent) => {
+  const handleEndDrag = (e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
     setIsDraggingEnd(true);
   };
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
+    const handleMove = (e: MouseEvent | TouchEvent) => {
       if (!timelineRef.current) return;
 
       const rect = timelineRef.current.getBoundingClientRect();
-      const mouseX = e.clientX - rect.left;
+      let clientX: number;
+      
+      if (e instanceof MouseEvent) {
+        clientX = e.clientX;
+      } else {
+        clientX = e.touches[0].clientX;
+      }
+      
+      const mouseX = clientX - rect.left;
       const percentage = Math.max(0, Math.min(1, mouseX / rect.width));
       const newTime = percentage * duration;
 
@@ -143,19 +151,23 @@ export function VideoTrimmer({
       }
     };
 
-    const handleMouseUp = () => {
+    const handleEnd = () => {
       setIsDraggingStart(false);
       setIsDraggingEnd(false);
     };
 
     if (isDraggingStart || isDraggingEnd) {
-      document.addEventListener('mousemove', handleMouseMove);
-      document.addEventListener('mouseup', handleMouseUp);
+      document.addEventListener('mousemove', handleMove);
+      document.addEventListener('mouseup', handleEnd);
+      document.addEventListener('touchmove', handleMove);
+      document.addEventListener('touchend', handleEnd);
     }
 
     return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
+      document.removeEventListener('mousemove', handleMove);
+      document.removeEventListener('mouseup', handleEnd);
+      document.removeEventListener('touchmove', handleMove);
+      document.removeEventListener('touchend', handleEnd);
     };
   }, [isDraggingStart, isDraggingEnd, duration, trimStart, trimEnd, onTrimStartChange, onTrimEndChange]);
 
@@ -228,20 +240,33 @@ export function VideoTrimmer({
           
           {/* Start handle */}
           <div
-            className="absolute top-0 bottom-0 w-3 bg-blue-600 cursor-ew-resize z-10 hover:bg-blue-700 flex items-center justify-center"
-            style={{ left: `${startPercentage}%` }}
+            className="absolute top-0 bottom-0 w-3 md:w-3 bg-blue-600 cursor-ew-resize z-10 hover:bg-blue-700 flex items-center justify-center touch-none"
+            style={{ 
+              left: `${startPercentage}%`,
+              paddingLeft: '8px',
+              paddingRight: '8px',
+              marginLeft: '-8px'
+            }}
             onMouseDown={handleStartDrag}
+            onTouchStart={handleStartDrag}
           >
-            <div className="w-1 h-6 bg-white rounded-sm" />
+            <div className="w-1 h-6 bg-white rounded-sm pointer-events-none" />
           </div>
           
           {/* End handle */}
           <div
-            className="absolute top-0 bottom-0 w-3 bg-blue-600 cursor-ew-resize z-10 hover:bg-blue-700 flex items-center justify-center"
-            style={{ left: `${endPercentage}%`, transform: 'translateX(-100%)' }}
+            className="absolute top-0 bottom-0 w-3 md:w-3 bg-blue-600 cursor-ew-resize z-10 hover:bg-blue-700 flex items-center justify-center touch-none"
+            style={{ 
+              left: `${endPercentage}%`, 
+              transform: 'translateX(-100%)',
+              paddingLeft: '8px',
+              paddingRight: '8px',
+              marginRight: '-8px'
+            }}
             onMouseDown={handleEndDrag}
+            onTouchStart={handleEndDrag}
           >
-            <div className="w-1 h-6 bg-white rounded-sm" />
+            <div className="w-1 h-6 bg-white rounded-sm pointer-events-none" />
           </div>
         </div>
         
