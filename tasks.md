@@ -157,3 +157,84 @@ components/
 
 Total: ~25-35 hours of development time
 
+## Future Enhancement Ideas
+
+### Camera & Audio Settings
+- [ ] **Camera Selection** - Switch between front/back cameras on mobile, or multiple cameras on desktop
+- [ ] **Microphone Selection** - Choose audio input device
+- [ ] **Video Quality Settings** - Resolution (480p, 720p, 1080p) and frame rate options
+- [ ] **Audio Input Level Control** - Gain adjustment for microphone
+
+### Export & Sharing Features
+- [ ] **Download with Custom Filename** - Let users name their recordings before download
+- [ ] **Multiple Export Formats** - Support WebM, MP4, with quality presets
+- [ ] **Direct Share Options** - Copy link, share to social media
+- [ ] **Cloud Upload Integration** - Direct upload to Google Drive, Dropbox, etc.
+
+### Advanced Recording Modes
+- [ ] **Screen Recording** - Capture screen instead of camera
+- [ ] **Picture-in-Picture** - Record screen with camera overlay
+- [ ] **Background Blur** - Apply blur effect to video background
+- [ ] **Virtual Backgrounds** - Replace background with images
+
+### UI/UX Improvements
+- [ ] **Dark Mode** - Toggle between light/dark themes
+- [ ] **Keyboard Shortcuts** - Space to start/stop, R to record, etc.
+- [ ] **Fullscreen Mode** - Immersive recording experience
+- [ ] **Mobile-Optimized Layout** - Better responsive design for phones
+
+### Accessibility Features
+- [ ] **Keyboard Navigation** - Full keyboard support for all controls
+- [ ] **Screen Reader Support** - ARIA labels and announcements
+- [ ] **Visual Indicators** - For users who can't hear countdown sounds
+- [ ] **Closed Captions** - Auto-generate captions for recordings
+
+### Storage & Persistence
+- [ ] **Local Storage** - Save recordings locally with IndexedDB
+- [ ] **Recording History** - View and manage past recordings
+- [ ] **Auto-Save Drafts** - Prevent loss of recordings on browser crash
+- [ ] **Batch Operations** - Delete/download multiple recordings at once
+
+### Advanced Editing
+- [ ] **Multiple Trim Segments** - Cut out multiple sections from one video
+- [ ] **Merge Recordings** - Combine multiple takes into one video
+- [ ] **Add Watermark/Logo** - Overlay image on recordings
+- [ ] **Simple Filters** - Brightness, contrast, saturation adjustments
+
+### Performance & Technical
+- [ ] **WebCodecs API** - For better performance and more format options
+- [ ] **Progressive Web App** - Offline support and installation
+- [ ] **WebRTC Integration** - For live streaming capabilities
+- [ ] **Analytics** - Track usage patterns and errors
+
+### Developer Experience
+- [ ] **Storybook Integration** - Component documentation and testing
+- [ ] **E2E Tests** - Playwright tests for recording flows
+- [ ] **Performance Monitoring** - Track memory usage and frame drops
+- [ ] **Error Tracking** - Sentry integration for production issues
+
+## Priority Recommendations
+
+Based on user value and implementation effort:
+
+1. **High Priority** (Most requested, reasonable effort):
+   - Camera/Microphone selection
+   - Download with custom filename
+   - Dark mode
+   - Keyboard shortcuts
+   - Local storage persistence
+
+2. **Medium Priority** (Nice to have, moderate effort):
+   - Screen recording
+   - Multiple export formats
+   - Background blur
+   - Recording history
+   - PWA support
+
+3. **Low Priority** (Advanced features, high effort):
+   - Picture-in-picture
+   - Multiple trim segments
+   - Live streaming
+   - Auto-captions
+   - Video filters
+
