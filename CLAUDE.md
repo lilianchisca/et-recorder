@@ -115,3 +115,8 @@ src/
 - **NEVER include Claude Code references or signatures in commit messages**
 - Do not add "Generated with Claude Code" or "Co-Authored-By: Claude" lines
 - Keep commit messages professional and focused on the changes made
+- **When asked to commit changes, consider if they should be split into multiple logical commits**
+  - Separate unrelated changes into different commits
+  - Group related changes that form a coherent unit
+  - Each commit should represent a single logical change
+  - Example: UI fixes in one commit, API changes in another
