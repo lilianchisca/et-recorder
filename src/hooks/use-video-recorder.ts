@@ -316,6 +316,13 @@ export function useVideoRecorder(): VideoRecorderHookReturn {
     }
   };
 
+  const pauseVideo = () => {
+    if (videoRef.current) {
+      videoRef.current.pause();
+      setRecordingState("recorded");
+    }
+  };
+
   const selectRecording = (recordingId: string) => {
     const recording = recordings.find(r => r.id === recordingId);
     if (recording && videoRef.current) {
@@ -467,6 +474,7 @@ export function useVideoRecorder(): VideoRecorderHookReturn {
     stopRecording,
     handleTimeLimit,
     playVideo,
+    pauseVideo,
     selectRecording,
     deleteRecording,
     deleteAllRecordings,

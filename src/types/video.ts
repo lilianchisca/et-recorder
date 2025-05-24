@@ -26,6 +26,7 @@ export interface VideoRecorderHookReturn {
   stopRecording: () => void;
   handleTimeLimit: () => void;
   playVideo: (recordingId?: string) => void;
+  pauseVideo: () => void;
   selectRecording: (recordingId: string) => void;
   deleteRecording: (recordingId: string) => void;
   deleteAllRecordings: () => void;
