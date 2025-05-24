@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import type { RecordingState } from "@/types/video";
 
 interface RecordingTimerProps {
@@ -10,21 +10,21 @@ interface RecordingTimerProps {
   onWarning?: (remainingTime: number) => void;
 }
 
-export function RecordingTimer({ 
-  recordingState, 
+export function RecordingTimer({
+  recordingState,
   maxDuration = 120, // 2 minutes default
   onTimeLimit,
   onWarning
 }: RecordingTimerProps) {
   const [elapsedTime, setElapsedTime] = useState(0);
-  const [warningsShown, setWarningsShown] = useState<Set<number>>(new Set());
+  const warningsShownRef = useRef<Set<number>>(new Set());
   const isActive = recordingState === "recording" || recordingState === "paused";
 
   useEffect(() => {
     // Reset timer when not recording
     if (!isActive) {
       setElapsedTime(0);
-      setWarningsShown(new Set());
+      warningsShownRef.current = new Set();
       return;
     }
 
@@ -37,19 +37,19 @@ export function RecordingTimer({
       setElapsedTime((prev) => {
         const newTime = prev + 1;
         const remainingTime = maxDuration - newTime;
-        
+
         // Trigger warnings at specific thresholds
         if (onWarning) {
           const warningThresholds = [60, 30, 10]; // 60s, 30s, 10s remaining
           for (const threshold of warningThresholds) {
-            if (remainingTime === threshold && !warningsShown.has(threshold)) {
-              setWarningsShown(prev => new Set(prev).add(threshold));
+            if (remainingTime === threshold && !warningsShownRef.current.has(threshold)) {
+              warningsShownRef.current.add(threshold);
               onWarning(remainingTime);
               break;
             }
           }
         }
-        
+
         if (newTime >= maxDuration && onTimeLimit) {
           onTimeLimit();
         }
@@ -68,7 +68,7 @@ export function RecordingTimer({
 
   const progress = (elapsedTime / maxDuration) * 100;
   const remainingTime = maxDuration - elapsedTime;
-  
+
   // Determine color based on remaining time
   const getProgressColor = () => {
     if (remainingTime <= 10) return "bg-red-500";
@@ -91,7 +91,7 @@ export function RecordingTimer({
         )}
       </div>
       <div className="w-32 h-2 bg-gray-700 rounded-full overflow-hidden">
-        <div 
+        <div
           className={`h-full transition-all duration-1000 ${getProgressColor()}`}
           style={{ width: `${progress}%` }}
         />
