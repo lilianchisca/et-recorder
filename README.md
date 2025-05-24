@@ -1,36 +1,130 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Video Recorder
+
+A browser-based video recording application built with Next.js 15, TypeScript, and Tailwind CSS v4. This application allows users to record, preview, trim, and save videos directly in their web browser.
+
+## Features
+
+- **Video Recording**: Record videos using your device's camera with a clean, intuitive interface
+- **Multiple Takes**: Record multiple takes and manage them easily
+- **Video Trimming**: Trim your recordings to keep only the best parts
+- **Audio Monitoring**: Real-time audio level meter during recording
+- **Countdown Timer**: 3-second countdown before recording starts (with optional sound effects)
+- **Recording Timer**: Visual timer showing recording duration with configurable max duration
+- **Pause/Resume**: Pause and resume recording as needed
+- **Playback Controls**: Preview recordings before saving
+- **Time Limit Warnings**: Automatic warnings at 60s, 30s, and 10s before max recording time
+- **Responsive Design**: Works seamlessly on desktop and mobile devices
+
+## Tech Stack
+
+- **Framework**: [Next.js 15.1.8](https://nextjs.org) with App Router
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS v4
+- **Package Manager**: pnpm
+- **Font**: Geist (auto-optimized with next/font)
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js 18+ 
+- pnpm (package manager)
+
+### Installation
+
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <repository-url>
+cd recorder
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+pnpm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Run the development server:
+```bash
+pnpm dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Learn More
+## Available Scripts
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+# Development server with Turbopack
+pnpm dev
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Build for production
+pnpm build
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Start production server
+pnpm start
 
-## Deploy on Vercel
+# Run all linting checks
+pnpm lint
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Run ESLint only
+pnpm lint:eslint
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Run TypeScript type checking
+pnpm lint:types
+```
+
+## Project Structure
+
+```
+src/
+├── app/                    # Next.js App Router
+│   ├── layout.tsx         # Root layout with Geist font
+│   ├── page.tsx           # Home page with VideoRecorder
+│   └── globals.css        # Global styles with Tailwind
+├── components/            
+│   └── video-recorder/    # Video recorder components
+│       ├── audio-meter.tsx
+│       ├── control-buttons.tsx
+│       ├── countdown.tsx
+│       ├── error-message.tsx
+│       ├── instructions.tsx
+│       ├── pause-resume-button.tsx
+│       ├── record-button.tsx
+│       ├── recording-timer.tsx
+│       ├── recordings-list.tsx
+│       ├── toast-notification.tsx
+│       ├── video-preview.tsx
+│       ├── video-recorder.tsx  # Main component
+│       └── video-trimmer.tsx
+├── hooks/                 # React hooks
+│   ├── use-toast.ts      # Toast notifications
+│   └── use-video-recorder.ts  # Core recording logic
+└── types/                 # TypeScript types
+    └── video.ts          # Video-related types
+```
+
+## Browser Support
+
+This application requires a modern browser with support for:
+- MediaRecorder API
+- getUserMedia API
+- Web Audio API
+
+Supported browsers:
+- Chrome/Edge (latest)
+- Firefox (latest)
+- Safari (latest)
+
+## Configuration
+
+The `VideoRecorder` component accepts the following props:
+
+- `maxRecordingTime` (number): Maximum recording duration in seconds (default: 120)
+- `enableCountdownSound` (boolean): Enable countdown sound effects (default: true)
+
+## Development
+
+The project uses strict TypeScript configuration and ESLint for code quality. Make sure to run linting before committing:
+
+```bash
+pnpm lint
+```
